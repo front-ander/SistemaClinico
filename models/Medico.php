@@ -208,6 +208,45 @@ class Medico {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    // Obtener horarios del médico
+    public function obtenerHorarios($medico_id) {
+        $query = "SELECT * FROM horarios_medicos WHERE medico_id = :medico_id ORDER BY FIELD(dia_semana, 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo')";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":medico_id", $medico_id);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // Guardar o actualizar horario
+    public function guardarHorario($medico_id, $dia_semana, $hora_inicio, $hora_fin, $activo) {
+        // Verificar si ya existe
+        $checkQuery = "SELECT id FROM horarios_medicos WHERE medico_id = :medico_id AND dia_semana = :dia_semana";
+        $checkStmt = $this->conn->prepare($checkQuery);
+        $checkStmt->bindParam(":medico_id", $medico_id);
+        $checkStmt->bindParam(":dia_semana", $dia_semana);
+        $checkStmt->execute();
+
+        if ($checkStmt->rowCount() > 0) {
+            // Actualizar
+            $query = "UPDATE horarios_medicos 
+                     SET hora_inicio = :hora_inicio, hora_fin = :hora_fin, activo = :activo 
+                     WHERE medico_id = :medico_id AND dia_semana = :dia_semana";
+        } else {
+            // Insertar
+            $query = "INSERT INTO horarios_medicos (medico_id, dia_semana, hora_inicio, hora_fin, activo) 
+                     VALUES (:medico_id, :dia_semana, :hora_inicio, :hora_fin, :activo)";
+        }
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":medico_id", $medico_id);
+        $stmt->bindParam(":dia_semana", $dia_semana);
+        $stmt->bindParam(":hora_inicio", $hora_inicio);
+        $stmt->bindParam(":hora_fin", $hora_fin);
+        $stmt->bindParam(":activo", $activo, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
 }
 ?>
 

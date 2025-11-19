@@ -142,6 +142,56 @@ class MedicoController {
         header("Location: index.php?action=medicos");
         exit();
     }
+
+    // Gestionar horarios (Vista)
+    public function horarios() {
+        if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'medico') {
+            header("Location: index.php?action=login");
+            exit();
+        }
+
+        $horarios = $this->medicoModel->obtenerHorarios($_SESSION['user_id']);
+        // Organizar horarios por día para fácil acceso en la vista
+        $horarios_map = [];
+        foreach ($horarios as $h) {
+            $horarios_map[$h['dia_semana']] = $h;
+        }
+        
+        require_once '../views/medicos/horarios.php';
+    }
+
+    // Guardar horarios
+    public function guardar_horarios() {
+        if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'medico') {
+            header("Location: index.php?action=login");
+            exit();
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $dias = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
+            $success = true;
+
+            foreach ($dias as $dia) {
+                // Verificar si el día fue marcado como activo
+                $activo = isset($_POST['activo'][$dia]) ? 1 : 0;
+                $inicio = $_POST['inicio'][$dia] ?? '09:00';
+                $fin = $_POST['fin'][$dia] ?? '17:00';
+
+                if (!$this->medicoModel->guardarHorario($_SESSION['user_id'], $dia, $inicio, $fin, $activo)) {
+                    $success = false;
+                }
+            }
+
+            if ($success) {
+                $_SESSION['success'] = "Horarios actualizados exitosamente";
+            } else {
+                $_SESSION['error'] = "Hubo un problema al guardar algunos horarios";
+            }
+
+            header("Location: index.php?action=horarios");
+            exit();
+        }
+    }
 }
 ?>
 

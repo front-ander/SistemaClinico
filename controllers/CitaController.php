@@ -46,6 +46,14 @@ class CitaController {
                 exit();
             }
 
+            // Verificar disponibilidad
+            $disponibilidad = $this->citaModel->verificarDisponibilidad($medico_id, $fecha, $hora);
+            if (!$disponibilidad['disponible']) {
+                $_SESSION['error'] = $disponibilidad['mensaje'];
+                header("Location: index.php?action=agendar");
+                exit();
+            }
+
             if ($this->citaModel->crear($paciente_id, $medico_id, $fecha, $hora, $motivo)) {
                 $_SESSION['success'] = "Cita creada exitosamente";
                 header("Location: index.php?action=dashboard");

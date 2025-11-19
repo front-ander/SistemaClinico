@@ -1,11 +1,7 @@
 <?php include '../views/layouts/header.php'; ?>
 
 <div class="d-flex">
-    <div class="sidebar p-3 bg-dark text-white" style="width: 250px; min-height: 100vh;">
-        <h4 class="text-center mb-4 fw-bold">San Gabriel</h4>
-        <a href="index.php?action=dashboard" class="text-white text-decoration-none d-block p-2 bg-secondary rounded mb-2"><i class="fas fa-home me-2"></i> Inicio</a>
-        <a href="index.php?action=logout" class="text-danger text-decoration-none d-block p-2 mt-5"><i class="fas fa-sign-out-alt me-2"></i> Salir</a>
-    </div>
+    <?php include '../views/layouts/sidebar_medico.php'; ?>
 
     <div class="flex-grow-1 p-4 bg-light">
         <div class="d-flex justify-content-between align-items-center mb-4">

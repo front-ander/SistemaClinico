@@ -25,7 +25,8 @@ $allowedActions = [
     'medicos', 'medicos_create', 'medicos_store', 'medicos_edit', 'medicos_update', 'medicos_delete',
     'pacientes', 'pacientes_create', 'pacientes_store', 'pacientes_edit', 'pacientes_update', 'pacientes_delete',
     'citas', 'citas_edit', 'citas_update', 'citas_delete', 'citas_confirmar', 'citas_ver', 'citas_agregar_resultados',
-    'chat_response', 'settings', 'settings_update', 'reportes', 'reportes_ver'
+    'chat_response', 'settings', 'settings_update', 'reportes', 'reportes_ver',
+    'horarios', 'guardar_horarios'
 ];
 
 // 3. Capturar y validar la acción de la URL (por defecto 'login')
@@ -91,6 +92,12 @@ switch ($action) {
         break;
     case 'medicos_delete':
         $medicoController->delete();
+        break;
+    case 'horarios':
+        $medicoController->horarios();
+        break;
+    case 'guardar_horarios':
+        $medicoController->guardar_horarios();
         break;
     // CRUD Pacientes
     case 'pacientes':

@@ -222,5 +222,61 @@ class Cita {
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         return $result['total'];
     }
+
+    // Verificar disponibilidad del médico
+    public function verificarDisponibilidad($medico_id, $fecha, $hora, $cita_id = null) {
+        // 1. Verificar horario de trabajo
+        $dias = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+        $dia_semana = $dias[date('w', strtotime($fecha))];
+
+        $query = "SELECT * FROM horarios_medicos 
+                  WHERE medico_id = :medico_id 
+                  AND dia_semana = :dia_semana 
+                  AND activo = 1";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":medico_id", $medico_id);
+        $stmt->bindParam(":dia_semana", $dia_semana);
+        $stmt->execute();
+        
+        if ($stmt->rowCount() == 0) {
+            return ['disponible' => false, 'mensaje' => "El médico no atiende los $dia_semana."];
+        }
+
+        $horario = $stmt->fetch(PDO::FETCH_ASSOC);
+        $hora_cita = strtotime($hora);
+        $inicio = strtotime($horario['hora_inicio']);
+        $fin = strtotime($horario['hora_fin']);
+
+        if ($hora_cita < $inicio || $hora_cita >= $fin) {
+            return ['disponible' => false, 'mensaje' => "La hora seleccionada está fuera del horario de atención ($horario[hora_inicio] - $horario[hora_fin])."];
+        }
+
+        // 2. Verificar si ya existe una cita (intervalos de 30 min por defecto, o simplemente coincidencia exacta)
+        // Asumimos citas de 30 minutos para simplificar la validación de solapamiento
+        $query = "SELECT id FROM " . $this->table_name . " 
+                  WHERE medico_id = :medico_id 
+                  AND fecha_cita = :fecha 
+                  AND hora_cita = :hora 
+                  AND estado != 'cancelada'";
+        
+        if ($cita_id) {
+            $query .= " AND id != :id";
+        }
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":medico_id", $medico_id);
+        $stmt->bindParam(":fecha", $fecha);
+        $stmt->bindParam(":hora", $hora);
+        if ($cita_id) {
+            $stmt->bindParam(":id", $cita_id);
+        }
+        $stmt->execute();
+
+        if ($stmt->rowCount() > 0) {
+            return ['disponible' => false, 'mensaje' => "El médico ya tiene una cita agendada en ese horario."];
+        }
+
+        return ['disponible' => true];
+    }
 }
 ?>
