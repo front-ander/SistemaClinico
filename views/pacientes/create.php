@@ -2,7 +2,7 @@
 
 <div class="d-flex">
     <div class="sidebar p-3 bg-dark text-white" style="width: 250px; min-height: 100vh;">
-        <h4 class="text-center mb-4 fw-bold">SG Admin</h4>
+        <h4 class="text-center mb-4 fw-bold">San Gabriel-Admin</h4>
         <a href="index.php?action=dashboard" class="text-secondary text-decoration-none d-block p-2"><i class="fas fa-chart-line me-2"></i> Dashboard</a>
         <a href="index.php?action=medicos" class="text-secondary text-decoration-none d-block p-2"><i class="fas fa-user-md me-2"></i> Médicos</a>
         <a href="index.php?action=pacientes" class="text-white text-decoration-none d-block p-2 bg-secondary rounded mb-2"><i class="fas fa-users me-2"></i> Pacientes</a>

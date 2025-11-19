@@ -13,9 +13,9 @@
         <a href="index.php?action=logout" class="text-danger text-decoration-none d-block p-2"><i class="fas fa-sign-out-alt me-2"></i> Cerrar Sesión</a>
     </div>
 
-    <div class="flex-grow-1 p-4 bg-light">
+    <div class="flex-grow-1 p-4">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2>Panel de Administración</h2>
+            <h2 class="text-dark fw-bold" style="text-shadow: 2px 2px 4px rgba(255,255,255,0.8);">Panel de Administración</h2>
             <span class="badge bg-primary p-2">Admin: <?php echo $_SESSION['user_name']; ?></span>
         </div>
 
@@ -60,5 +60,6 @@
                 </div>
             </div>
         </div>
+    </div>
 </div>
 <?php include '../views/layouts/footer.php'; ?>

@@ -2,7 +2,7 @@
 
 <div class="d-flex">
     <div class="sidebar p-3" style="width: 250px;">
-        <h4 class="text-center mb-4">San Gabriel</h4>
+        <h4 class="text-center mb-4">San Gabriel-Admin</h4>
         <a href="index.php?action=dashboard"><i class="fas fa-home me-2"></i> Inicio</a>
         <a href="#" class="bg-secondary text-white rounded"><i class="fas fa-calendar-plus me-2"></i> Nueva Cita</a>
         <a href="index.php?action=logout" class="text-danger mt-5"><i class="fas fa-sign-out-alt me-2"></i> Salir</a>

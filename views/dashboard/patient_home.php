@@ -10,7 +10,7 @@
         <a href="index.php?action=logout" class="text-danger text-decoration-none d-block p-2"><i class="fas fa-sign-out-alt me-2"></i> Salir</a>
     </div>
 
-    <div class="flex-grow-1 p-4 bg-light">
+    <div class="flex-grow-1 p-4">
         <h2>Bienvenido, <?php echo $_SESSION['user_name']; ?></h2>
         <p class="text-muted">Panel del Paciente</p>
 
