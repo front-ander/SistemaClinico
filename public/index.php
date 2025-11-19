@@ -6,18 +6,41 @@ ini_set('display_errors', 1);
 // Iniciar output buffering para evitar problemas con headers
 ob_start();
 
-// 1. Cargar Controladores
-require_once '../controllers/AuthController.php';
-require_once '../controllers/DashboardController.php';
-require_once '../controllers/CitaController.php';
-require_once '../controllers/MedicoController.php';
-require_once '../controllers/PacienteController.php';
-require_once '../controllers/ChatController.php';
-require_once '../controllers/ConfigController.php';
-require_once '../controllers/ReporteController.php';
+// SEGURIDAD: Definir ruta base del proyecto
+define('BASE_PATH', realpath(__DIR__ . '/..'));
 
-// 2. Capturar la acción de la URL (por defecto 'login')
+// 1. Cargar Controladores
+require_once BASE_PATH . '/controllers/AuthController.php';
+require_once BASE_PATH . '/controllers/DashboardController.php';
+require_once BASE_PATH . '/controllers/CitaController.php';
+require_once BASE_PATH . '/controllers/MedicoController.php';
+require_once BASE_PATH . '/controllers/PacienteController.php';
+require_once BASE_PATH . '/controllers/ChatController.php';
+require_once BASE_PATH . '/controllers/ConfigController.php';
+require_once BASE_PATH . '/controllers/ReporteController.php';
+
+// 2. Lista de acciones permitidas (whitelist) - PROTECCIÓN CONTRA PATH TRAVERSAL
+$allowedActions = [
+    'login', 'register', 'logout', 'dashboard', 'agendar', 'guardar_cita',
+    'medicos', 'medicos_create', 'medicos_store', 'medicos_edit', 'medicos_update', 'medicos_delete',
+    'pacientes', 'pacientes_create', 'pacientes_store', 'pacientes_edit', 'pacientes_update', 'pacientes_delete',
+    'citas', 'citas_edit', 'citas_update', 'citas_delete', 'citas_confirmar', 'citas_ver', 'citas_agregar_resultados',
+    'chat_response', 'settings', 'settings_update', 'reportes', 'reportes_ver'
+];
+
+// 3. Capturar y validar la acción de la URL (por defecto 'login')
 $action = isset($_GET['action']) ? $_GET['action'] : 'login';
+
+// SEGURIDAD: Validar que la acción esté en la whitelist - PREVIENE PATH TRAVERSAL
+if (!in_array($action, $allowedActions, true)) {
+    error_log("Intento de acceso a acción no permitida: " . $action);
+    $action = 'login';
+}
+
+// SEGURIDAD: Sanitizar IDs numéricos en GET
+if (isset($_GET['id']) && !is_numeric($_GET['id'])) {
+    $_GET['id'] = 0;
+}
 
 // 3. Instanciar Controladores
 $auth = new AuthController();
