@@ -7,7 +7,7 @@
         <a href="index.php?action=medicos" class="text-secondary text-decoration-none d-block p-2"><i class="fas fa-user-md me-2"></i> Médicos</a>
         <a href="index.php?action=pacientes" class="text-white text-decoration-none d-block p-2 bg-secondary rounded mb-2"><i class="fas fa-users me-2"></i> Pacientes</a>
         <a href="index.php?action=citas" class="text-secondary text-decoration-none d-block p-2"><i class="fas fa-calendar-check me-2"></i> Citas</a>
-        <a href="index.php?action=profile" class="text-secondary text-decoration-none d-block p-2"><i class="fas fa-user-cog me-2"></i> Reporte-PDF</a>
+        <a href="index.php?action=reportes" class="text-secondary text-decoration-none d-block p-2"><i class="fas fa-file-alt me-2"></i> Reporte-PDF</a>
         <hr>
         <a href="index.php?action=settings" class="text-secondary text-decoration-none d-block p-2"><i class="fas fa-cogs me-2"></i> Configuración</a>
         <a href="index.php?action=logout" class="text-danger text-decoration-none d-block p-2"><i class="fas fa-sign-out-alt me-2"></i> Cerrar Sesión</a>
