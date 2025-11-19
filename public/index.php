@@ -12,6 +12,7 @@ require_once '../controllers/DashboardController.php';
 require_once '../controllers/CitaController.php';
 require_once '../controllers/MedicoController.php';
 require_once '../controllers/PacienteController.php';
+require_once '../controllers/ChatController.php';
 
 // 2. Capturar la acción de la URL (por defecto 'login')
 $action = isset($_GET['action']) ? $_GET['action'] : 'login';
@@ -22,6 +23,7 @@ $dashboard = new DashboardController();
 $citaController = new CitaController();
 $medicoController = new MedicoController();
 $pacienteController = new PacienteController();
+$chatController = new ChatController();
 
 // 4. Enrutamiento (Switch)
 switch ($action) {
@@ -103,6 +105,9 @@ switch ($action) {
         break;
     case 'citas_agregar_resultados':
         $citaController->agregarResultados();
+        break;
+    case 'chat_response':
+        $chatController->handleRequest();
         break;
     default:
         // Página 404 o redirigir a login
