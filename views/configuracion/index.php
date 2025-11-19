@@ -14,7 +14,7 @@
         <a href="index.php?action=logout" class="text-danger text-decoration-none d-block p-2"><i class="fas fa-sign-out-alt me-2"></i> Cerrar Sesión</a>
     </div>
 
-    <div class="flex-grow-1 p-4 bg-light">
+    <div class="flex-grow-1 p-4">
         <h2 class="mb-4">Configuración del Sistema</h2>
 
         <?php if (isset($_GET['success'])): ?>

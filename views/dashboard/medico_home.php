@@ -3,7 +3,7 @@
 <div class="d-flex">
     <?php include '../views/layouts/sidebar_medico.php'; ?>
 
-    <div class="flex-grow-1 p-4 bg-light">
+    <div class="flex-grow-1 p-4">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <div>
                 <h2>Bienvenido, <?php echo $_SESSION['user_name']; ?></h2>
